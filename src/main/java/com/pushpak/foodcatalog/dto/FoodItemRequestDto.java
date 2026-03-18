@@ -1,5 +1,5 @@
 package com.pushpak.foodcatalog.dto;
 
-public class FoodCatalogResponseDto {
-
+public class FoodItemRequestDto {
+    
 }
