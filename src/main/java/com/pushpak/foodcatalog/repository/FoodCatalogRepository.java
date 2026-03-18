@@ -1,5 +1,11 @@
 package com.pushpak.foodcatalog.repository;
 
-public class FoodCatalogRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import com.pushpak.foodcatalog.entity.FoodCatalogEntity;
+
+@Repository
+public interface FoodCatalogRepository extends JpaRepository<FoodCatalogEntity, Long> {
 
 }

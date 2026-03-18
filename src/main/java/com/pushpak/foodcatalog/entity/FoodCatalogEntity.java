@@ -20,7 +20,7 @@ public class FoodCatalogEntity {
 
     private String name;
     private String description;
-    private Double price;
+    private Number price;
     private Long restaurantId;
     private Boolean isVeg;
 
