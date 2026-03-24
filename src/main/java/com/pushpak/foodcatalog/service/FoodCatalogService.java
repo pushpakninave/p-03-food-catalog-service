@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import com.pushpak.foodcatalog.dto.FoodItemRequestDto;
 import com.pushpak.foodcatalog.dto.FoodItemResponseDto;
@@ -17,16 +18,22 @@ public class FoodCatalogService {
     @Autowired
     private FoodItemRepository foodCatalogRepository;
 
+    @Autowired
+    private FoodItemMapper foodItemMapper;
+
+    @Autowired
+    private RestTemplate restTemplate;
+
     public FoodItemResponseDto addFoodItem(FoodItemRequestDto entity) {
-        FoodItemEntity foodItemEntity = FoodItemMapper.INSTANCE.mapFoodItemRequestDtoToFoodItemEntity(entity);
+        FoodItemEntity foodItemEntity = foodItemMapper.mapFoodItemRequestDtoToFoodItemEntity(entity);
         FoodItemEntity savedFoodItem = foodCatalogRepository.save(foodItemEntity);
-        return FoodItemMapper.INSTANCE.mapFoodItemEntityToFoodItemResponseDto(savedFoodItem);
+        return foodItemMapper.mapFoodItemEntityToFoodItemResponseDto(savedFoodItem);
     }
 
     public List<FoodItemResponseDto> getAllFoodItems() {
         List<FoodItemEntity> foodItems = foodCatalogRepository.findAll();
         List<FoodItemResponseDto> foodItemResponseDtos = foodItems.stream()
-                .map(foodItem -> FoodItemMapper.INSTANCE.mapFoodItemEntityToFoodItemResponseDto(foodItem))
+                .map(foodItem -> foodItemMapper.mapFoodItemEntityToFoodItemResponseDto(foodItem))
                 .toList();
         return foodItemResponseDtos;
     }
@@ -34,6 +41,6 @@ public class FoodCatalogService {
     public Optional<FoodItemResponseDto> getFoodItemById(Long id) {
         FoodItemEntity foodItemEntity = foodCatalogRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Food item not found"));
-        return Optional.ofNullable(FoodItemMapper.INSTANCE.mapFoodItemEntityToFoodItemResponseDto(foodItemEntity));
+        return Optional.ofNullable(foodItemMapper.mapFoodItemEntityToFoodItemResponseDto(foodItemEntity));
     }
 }
